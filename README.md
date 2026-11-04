@@ -535,9 +535,6 @@ store's models receiving signed products.
 **Tested against simulated shops only:** Shopify and WooCommerce. Their field names follow the public REST docs but have not been run
 against a real store.
 
-**Not tested:** behaviour with the live model under heavy load, and picture quality across many products (judged by eye, not
-measured). The consistency score is a colour-histogram measure, a rough guide and not a judgement of style.
-
 ## Known limits and roadmap
 
 **Known limits**
