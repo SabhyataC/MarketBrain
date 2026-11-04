@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+openai
+python-dotenv
+httpx
+python-multipart
+Pillow
+# Optional: the landing page check (and translated ad text without libraqm) runs in a real browser.
+# After installing, run: playwright install chromium
+playwright

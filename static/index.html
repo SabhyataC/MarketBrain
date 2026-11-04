@@ -1,0 +1,2302 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Marketing Brain</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;800&display=swap"
+        rel="stylesheet">
+    <style>
+        body.ks-on button.primary { opacity: .45; pointer-events: none; }
+        /* ===== Palette: neutral, one blue accent ===== */
+        :root {
+            --paper: #F4F5F7;
+            --panel: #FFFFFF;
+            --ink: #1F2933;
+            --muted: #667085;
+            --line: #E4E7EC;
+            --line-strong: #D0D5DD;
+
+            --accent: #2563EB;
+            --on-accent: #FFFFFF;
+            --focus: #2563EB;
+
+            --tag: #F59E0B;
+            --on-tag: #1F1300;
+
+            --ok: #15803D;
+            --warn: #B45309;
+            --bad: #C0392B;
+
+            --side: #1F2933;
+            --side-ink: #B8C0CC;
+            --side-hover: rgba(255, 255, 255, .06);
+            --side-active: rgba(255, 255, 255, .12);
+        }
+
+        .side-note {
+            color: #8A94A3;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --paper: #0E1120;
+                --panel: #171B30;
+                --ink: #ECEEF8;
+                --muted: #9AA2C2;
+                --line: #2A3050;
+                --line-strong: #464E78;
+                --accent: #9AA7FF;
+                --on-accent: #0E1120;
+                --ok: #4FC98A;
+                --warn: #F0A04B;
+                --bad: #FF8A80;
+                --focus: #9AA7FF;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 32px 20px 96px;
+            background: var(--paper);
+            color: var(--ink);
+            font: 15px/1.5 "Schibsted Grotesk", system-ui, sans-serif;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: -.02em;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -.01em;
+        }
+
+        h3 {
+            margin: 0 0 4px;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .top {
+            margin-bottom: 24px;
+        }
+
+        .sub {
+            margin: 4px 0 0;
+            color: var(--muted);
+        }
+
+        small {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        a {
+            color: var(--accent);
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid var(--line);
+            margin: 20px 0;
+        }
+
+        /* Panels */
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 20px;
+            margin: 16px 0;
+        }
+
+        .card p {
+            margin: 0 0 12px;
+        }
+
+        .card-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+
+        .card-head .push {
+            margin-left: auto;
+        }
+
+        #count,
+        #pcount {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        label.check {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            color: var(--muted);
+            margin: 0 0 12px;
+        }
+
+        details.card>summary {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            list-style: none;
+            font-size: 16px;
+        }
+
+        details.card>summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details.card>summary::after {
+            content: "";
+            margin-left: auto;
+            width: 8px;
+            height: 8px;
+            border-right: 2px solid var(--muted);
+            border-bottom: 2px solid var(--muted);
+            transform: rotate(45deg);
+            transition: transform .15s;
+        }
+
+        details.card[open]>summary {
+            margin-bottom: 12px;
+        }
+
+        details.card[open]>summary::after {
+            transform: rotate(-135deg);
+        }
+
+        /* Step marker, shaped like a price tag */
+        .tag {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            height: 28px;
+            padding: 0 12px 0 22px;
+            background: var(--tag);
+            color: var(--on-tag);
+            font-weight: 800;
+            font-size: 15px;
+            font-variant-numeric: tabular-nums;
+            clip-path: polygon(11px 0, 100% 0, 100% 100%, 11px 100%, 0 50%);
+        }
+
+        .tag::before {
+            content: "";
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            width: 6px;
+            height: 6px;
+            margin-top: -3px;
+            border-radius: 50%;
+            background: var(--panel);
+        }
+
+        /* Buttons */
+        button {
+            font: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            height: 36px;
+            padding: 0 14px;
+            border-radius: 8px;
+            border: 1px solid var(--line-strong);
+            background: var(--panel);
+            color: var(--ink);
+            cursor: pointer;
+            transition: background .12s, border-color .12s;
+        }
+
+        button:hover:not(:disabled) {
+            background: var(--paper);
+            border-color: var(--ink);
+        }
+
+        button.primary {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--on-accent);
+        }
+
+        button.primary:hover:not(:disabled) {
+            background: var(--accent);
+            filter: brightness(1.12);
+        }
+
+        button:disabled {
+            opacity: .5;
+            cursor: wait;
+        }
+
+        button[onclick^="del"]:hover:not(:disabled) {
+            color: var(--bad);
+            border-color: var(--bad);
+        }
+
+        td button {
+            height: 30px;
+            padding: 0 10px;
+            font-size: 13px;
+        }
+
+        /* Form controls */
+        input[type=text],
+        input[type=number],
+        select,
+        textarea {
+            font: inherit;
+            font-size: 14px;
+            color: var(--ink);
+            background: var(--panel);
+            border: 1px solid var(--line-strong);
+            border-radius: 8px;
+            padding: 7px 10px;
+            max-width: 100%;
+        }
+
+        input[type=text] {
+            width: 100%;
+        }
+
+        select {
+            height: 36px;
+        }
+
+        textarea {
+            width: 100%;
+            margin-top: 12px;
+            resize: vertical;
+        }
+
+        ::placeholder {
+            color: var(--muted);
+            opacity: .8;
+        }
+
+        input[type=checkbox],
+        input[type=radio] {
+            accent-color: var(--accent);
+        }
+
+        td input[type=text] {
+            padding: 5px 8px;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--focus);
+            outline-offset: 2px;
+        }
+
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible {
+            outline-offset: 0;
+            border-color: var(--focus);
+        }
+
+        input[type=file] {
+            font: inherit;
+            font-size: 14px;
+            color: var(--muted);
+            max-width: 100%;
+        }
+
+        input[type=file]::file-selector-button {
+            font: inherit;
+            font-weight: 600;
+            height: 36px;
+            padding: 0 14px;
+            margin-right: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--line-strong);
+            background: var(--panel);
+            color: var(--ink);
+            cursor: pointer;
+        }
+
+        .drop {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border: 1.5px dashed var(--line-strong);
+            border-radius: 12px;
+            background: var(--paper);
+        }
+
+        /* Tables */
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 4px 0 12px;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid var(--line);
+            vertical-align: middle;
+        }
+
+        th {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        td img {
+            display: block;
+            border-radius: 8px;
+            border: 1px solid var(--line);
+            background: var(--paper);
+        }
+
+        /* each item = main row + description row; draw the divider only under the pair */
+        #rows tr:nth-child(odd) td,
+        #prows tr.main td {
+            border-bottom: 0;
+        }
+
+        #rows tr:nth-child(even) td,
+        #prows tr.det td {
+            padding-top: 0;
+            padding-bottom: 14px;
+        }
+
+        #products .num {
+            width: 72px;
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+
+        #products .txt {
+            width: 100%;
+            min-width: 90px;
+        }
+
+        td.margin {
+            color: var(--ok);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        #padd {
+            margin-top: 12px;
+            padding-top: 14px;
+            border-top: 1px solid var(--line);
+        }
+
+        .kv td {
+            border-bottom: 0;
+            padding: 4px 8px 4px 0;
+        }
+
+        .kv td:first-child {
+            color: var(--muted);
+            white-space: nowrap;
+            width: 170px;
+        }
+
+        #audit td {
+            font-size: 13px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        #audit td:first-child {
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        table.rep td,
+        table.rep th {
+            font-size: 14px;
+            padding: 6px 10px 6px 0;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        table.rep td:first-child {
+            color: var(--muted);
+            white-space: nowrap;
+            width: 1%;
+        }
+
+        /* Queue and drafts */
+        .prop {
+            border: 1px solid var(--line);
+            border-left: 4px solid var(--line-strong);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin: 12px 0;
+            background: var(--paper);
+        }
+
+        #queue .prop {
+            border-left-color: var(--tag);
+        }
+
+        /* waiting for your approval */
+        .prop .adv {
+            padding: 10px 0;
+            border-top: 1px solid var(--line);
+        }
+
+        .adv input[type=text] {
+            display: block;
+            margin: 4px 0;
+        }
+
+        /* Status toast (was at the bottom of the page) */
+        #msg {
+            margin: 0;
+        }
+
+        #msg:not(:empty) {
+            position: fixed;
+            left: 50%;
+            bottom: 20px;
+            transform: translateX(-50%);
+            z-index: 50;
+            max-width: min(560px, calc(100vw - 32px));
+            padding: 10px 16px;
+            border-radius: 10px;
+            background: var(--ink);
+            color: var(--paper);
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, .25);
+            cursor: pointer;
+        }
+
+        #msg.err:not(:empty) {
+            background: var(--bad);
+        }
+
+        /* Recolour the status colours that the JavaScript writes inline, so they work in dark mode */
+        [style*="color:#0a6"] {
+            color: var(--ok) !important;
+        }
+
+        [style*="color:#b45309"] {
+            color: var(--warn) !important;
+        }
+
+        [style*="color:#c00"] {
+            color: var(--bad) !important;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 20px 12px 96px;
+            }
+
+            .card {
+                padding: 16px;
+                border-radius: 12px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            .kv td,
+            .kv td:first-child {
+                display: block;
+                width: auto;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition: none !important;
+            }
+        }
+
+
+        /* ===== Dashboard layout ===== */
+        :root {
+            --side: #161B33;
+            --side-ink: #C4CAE4;
+            --side-hover: rgba(255, 255, 255, .07);
+            --side-active: rgba(255, 255, 255, .12);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --side: #0A0D1A;
+            }
+        }
+
+        body {
+            max-width: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .app {
+            display: grid;
+            grid-template-columns: 232px minmax(0, 1fr);
+            min-height: 100vh;
+        }
+
+        .side {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            padding: 20px 12px;
+            background: var(--side);
+            color: var(--side-ink);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 8px;
+            color: #fff;
+            font-weight: 800;
+            font-size: 16px;
+            letter-spacing: -.01em;
+            text-decoration: none;
+        }
+
+        .tag.mark {
+            width: 30px;
+            height: 26px;
+            padding: 0;
+        }
+
+        .tag.mark::before {
+            background: var(--side);
+        }
+
+        .side nav {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .nav {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            height: 40px;
+            padding: 0 10px;
+            border-radius: 8px;
+            color: var(--side-ink);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .nav svg {
+            width: 18px;
+            height: 18px;
+            flex: none;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .nav:hover {
+            background: var(--side-hover);
+            color: #fff;
+        }
+
+        .nav.active {
+            background: var(--side-active);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .nav.active::before {
+            content: "";
+            position: absolute;
+            left: -12px;
+            top: 8px;
+            bottom: 8px;
+            width: 3px;
+            border-radius: 0 3px 3px 0;
+            background: var(--tag);
+        }
+
+        .count {
+            margin-left: auto;
+            min-width: 22px;
+            padding: 1px 7px;
+            border-radius: 999px;
+            text-align: center;
+            font-style: normal;
+            font-size: 12px;
+            font-weight: 700;
+            background: var(--side-active);
+            color: #fff;
+        }
+
+        .count:empty {
+            display: none;
+        }
+
+        .count.hot {
+            background: var(--tag);
+            color: var(--on-tag);
+        }
+
+        .side-note {
+            margin: auto 8px 0;
+            font-size: 12.5px;
+            line-height: 1.45;
+            color: #8D94B8;
+        }
+
+        .side :focus-visible {
+            outline-color: #fff;
+        }
+
+        .main {
+            padding: 0 32px 96px;
+            min-width: 0;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 0 14px;
+            margin-bottom: 20px;
+            background: var(--paper);
+            box-shadow: 0 1px 0 var(--line);
+        }
+
+        .topbar h1 {
+            font-size: 22px;
+        }
+
+        .topbar .push {
+            margin-left: auto;
+        }
+
+        .view {
+            display: none;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        .view>.card:first-child {
+            margin-top: 0;
+        }
+
+        .grid2 {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+            align-items: start;
+        }
+
+        .grid2>.card {
+            margin: 0;
+        }
+
+        /* Numbers at the top of Overview */
+        .kpis {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .kpi {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 16px 18px;
+        }
+
+        .kpi .label {
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .kpi .value {
+            margin: 6px 0 2px;
+            font-size: 32px;
+            line-height: 1.1;
+            font-weight: 800;
+            letter-spacing: -.02em;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .kpi small {
+            display: block;
+            min-height: 1.3em;
+        }
+
+        .kpi.alert {
+            border-left: 4px solid var(--tag);
+            padding-left: 15px;
+        }
+
+        .bar {
+            height: 6px;
+            margin-top: 10px;
+            border-radius: 99px;
+            background: var(--line);
+            overflow: hidden;
+        }
+
+        .bar>i {
+            display: block;
+            width: 0;
+            height: 100%;
+            border-radius: inherit;
+            background: var(--accent);
+            transition: width .3s;
+        }
+
+        .next {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-left: 4px solid var(--tag);
+            border-radius: 14px;
+        }
+
+        .next h2 {
+            font-size: 17px;
+        }
+
+        .next p {
+            margin: 2px 0 0;
+            color: var(--muted);
+        }
+
+        @media (max-width: 1100px) {
+            .kpis {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .grid2 {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        @media (max-width: 860px) {
+            .app {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .side {
+                height: auto;
+                z-index: 30;
+                flex-direction: row;
+                align-items: center;
+                gap: 8px;
+                padding: 8px 10px;
+                overflow-x: auto;
+            }
+
+            .brand span:last-child {
+                display: none;
+            }
+
+            .side nav {
+                flex-direction: row;
+            }
+
+            .nav {
+                height: 36px;
+                white-space: nowrap;
+            }
+
+            .nav.active::before {
+                display: none;
+            }
+
+            .side-note {
+                display: none;
+            }
+
+            .main {
+                padding: 0 14px 96px;
+            }
+
+            .topbar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .kpis {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+
+        <aside class="side">
+            <a class="brand" href="#overview"><span class="tag mark"></span><span>Marketing Brain</span></a>
+            <nav>
+                <a class="nav" href="#overview" data-go="overview">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="7" height="9" rx="1" />
+                        <rect x="14" y="3" width="7" height="5" rx="1" />
+                        <rect x="14" y="12" width="7" height="9" rx="1" />
+                        <rect x="3" y="16" width="7" height="5" rx="1" />
+                    </svg>
+                    <span>Overview</span>
+                </a>
+                <a class="nav" href="#catalog" data-go="catalog">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M21 8l-9-5-9 5v8l9 5 9-5z" />
+                        <path d="M3 8l9 5 9-5M12 13v8" />
+                    </svg>
+                    <span>Catalog</span><em id="nav-cat" class="count"></em>
+                </a>
+                <a class="nav" href="#ads" data-go="ads">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 11v2a1 1 0 001 1h2l5 4V6L6 10H4a1 1 0 00-1 1z" />
+                        <path d="M15 9a4 4 0 010 6M18 6a8 8 0 010 12" />
+                    </svg>
+                    <span>Ads</span><em id="nav-ads" class="count hot"></em>
+                </a>
+                <a class="nav" href="#seo" data-go="seo">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="7" />
+                        <path d="M21 21l-4-4" />
+                    </svg>
+                    <span>SEO</span><em id="nav-seo" class="count hot"></em>
+                </a>
+                <a class="nav" href="#export" data-go="export">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 3v12M7 10l5 5 5-5M4 21h16" />
+                    </svg>
+                    <span>Export</span>
+                </a>
+                <a class="nav" href="#setup" data-go="setup">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0" />
+                        <circle cx="16" cy="6" r="2" />
+                        <circle cx="10" cy="12" r="2" />
+                        <circle cx="18" cy="18" r="2" />
+                    </svg>
+                    <span>Shop setup</span>
+                </a>
+            </nav>
+            <p class="side-note">Ads stay as paused drafts. Nothing is sent to Meta.</p>
+        </aside>
+
+        <div class="main">
+            <header class="topbar">
+                <h1 id="pageTitle">Overview</h1>
+                <button class="push" onclick="refreshAll()">Refresh all</button>
+            </header>
+            <div id="ksBanner" style="display:none;background:#b91c1c;color:#fff;padding:10px 16px;font-weight:600">
+                <span id="ksText"></span>
+                <button onclick="setKill(false)" style="margin-left:12px">Resume</button>
+            </div>
+
+            <!-- OVERVIEW -->
+            <section class="view" data-view="overview">
+                <div class="card" id="ksCard">
+                    <div class="card-head"><h2>Pause everything</h2></div>
+                    <p><small>Emergency stop. While paused, nothing can be approved, sent to a shop, applied, or generated
+                            by the AI. You can still read, edit drafts, reject and download.</small></p>
+                    <div class="row">
+                        <input type="text" id="ksReason" maxlength="200" placeholder="Why? (optional)" style="flex:1">
+                        <button id="ksBtn" onclick="setKill(true)" style="background:#b91c1c;color:#fff">Pause everything</button>
+                    </div>
+                </div>
+                <div class="kpis">
+                    <div class="kpi">
+                        <div class="label">Products</div>
+                        <div class="value" id="k-products">–</div>
+                        <small id="k-products-sub"></small>
+                    </div>
+                    <div class="kpi" id="k-pending-card">
+                        <div class="label">Waiting for you</div>
+                        <div class="value" id="k-pending">0</div>
+                        <small id="k-pending-sub"></small>
+                    </div>
+                    <div class="kpi">
+                        <div class="label">Approved ads</div>
+                        <div class="value" id="k-approved">0</div>
+                        <small id="k-approved-sub"></small>
+                    </div>
+                    <div class="kpi">
+                        <div class="label">Budget committed per day</div>
+                        <div class="value" id="k-budget">Rs 0</div>
+                        <small id="k-budget-sub"></small>
+                        <div class="bar"><i id="k-bar"></i></div>
+                    </div>
+                </div>
+
+                <div class="next">
+                    <div>
+                        <h2 id="next-title">Loading...</h2>
+                        <p id="next-body"></p>
+                    </div>
+                    <button class="primary" id="next-btn" onclick="goView(this.dataset.v)" hidden>Open</button>
+                </div>
+
+                <div class="grid2">
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>Report</h2>
+                            <span class="push row">
+                                <select id="repDays" onchange="loadReport()">
+                                    <option value="7">Last 7 days</option>
+                                    <option value="1">Last 24 hours</option>
+                                    <option value="30">Last 30 days</option>
+                                </select>
+                                <button onclick="loadReport()">Refresh</button>
+                                <a href="/report" target="_blank" style="font-size:13px">Raw JSON</a>
+                            </span>
+                        </div>
+                        <div id="report"><small>Loading...</small></div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>Recent activity</h2>
+                            <button class="push" onclick="loadAudit()">Refresh</button>
+                        </div>
+                        <div class="table-wrap">
+                            <table id="audit">
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>Who</th>
+                                        <th>Action</th>
+                                        <th>Detail</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="auditRows"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CATALOG -->
+            <section class="view" data-view="catalog">
+                <div class="card">
+                    <div class="card-head"><span class="tag">1</span>
+                        <h2>Upload a shelf video</h2>
+                    </div>
+                    <div class="drop">
+                        <input type="file" id="video" accept="video/*">
+                        <button class="primary" id="go" onclick="upload()">Build catalog draft</button>
+                    </div>
+                    <textarea id="notes" rows="2" maxlength="500"
+                        placeholder="Optional notes about this shelf, e.g. all items are cotton, brand on this shelf is Vastra"></textarea>
+                </div>
+
+                <div class="card" id="draft" style="display:none">
+                    <div class="card-head"><span class="tag">2</span>
+                        <h2>Check the draft</h2><span id="count"></span>
+                    </div>
+                    <p><small>MRP is the printed price. Cost is the price the customer pays. Ads and shop sends use Cost
+                            (or the MRP when Cost is empty).</small></p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Photo</th>
+                                    <th>Name</th>
+                                    <th>Brand</th>
+                                    <th>Category</th>
+                                    <th>MRP</th>
+                                    <th>Cost</th>
+                                    <th>Stock</th>
+                                    <th>Check</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="rows"></tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <button onclick="addRow()">+ Add item</button>
+                        <button class="primary" id="approve" onclick="approve()">Approve and import</button>
+                    </div>
+                </div>
+
+                <div class="card" id="productsCard">
+                    <div class="card-head">
+                        <h2>Products</h2><span id="pcount"></span>
+                        <button class="push" onclick="loadProducts()">Refresh</button>
+                    </div>
+                    <div class="table-wrap">
+                        <table id="products">
+                            <thead>
+                                <tr>
+                                    <th>Photo</th>
+                                    <th>Name</th>
+                                    <th>Brand</th>
+                                    <th>Category</th>
+                                    <th>MRP</th>
+                                    <th>Cost</th>
+                                    <th>Stock</th>
+                                    <th>Discount</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="prows"></tbody>
+                        </table>
+                    </div>
+                    <div id="padd" style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+                        <input type="text" id="np-name" placeholder="Name" style="flex:2;min-width:120px">
+                        <input type="text" id="np-brand" placeholder="Brand" style="flex:1;min-width:90px">
+                        <input type="text" id="np-price" placeholder="MRP" style="width:70px">
+                        <input type="text" id="np-cost" placeholder="Cost (customer pays)" style="width:110px">
+                        <input type="text" id="np-stock" placeholder="Stock" style="width:70px">
+                        <button class="primary" onclick="addProduct()">+ Add product</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ADS -->
+            <section class="view" data-view="ads">
+                <div class="card">
+                    <div class="card-head">
+                        <span class="tag">3</span>
+                        <h2>Approval queue</h2>
+                        <span class="push row">
+                            <button onclick="runPlanner()" id="plan">Run planner</button>
+                            <button onclick="loadQueue()">Refresh</button>
+                        </span>
+                    </div>
+                    <label class="check"><input type="checkbox" id="realPhoto"> Use my real product photo in ads instead
+                        of a generated image</label>
+                    <div id="queue"></div>
+                </div>
+
+                <div class="card" id="seriesCard">
+                    <div class="card-head">
+                        <h2>Ad series (4 pictures, one look)</h2>
+                        <button class="push" onclick="loadSeriesSetup()">Refresh</button>
+                    </div>
+                    <p><small>Makes four ads from one real product photo with the same colours, light and mood. Headline, price
+                            and button are drawn by the app, so the text is always correct. Pick a language to also get one
+                            translated picture. The series waits in the queue above for your approval.</small></p>
+                    <div class="row">
+                        <select id="serProduct"></select>
+                        <select id="serLang"><option value="">No translated version</option></select>
+                        <button class="primary" id="serGo" onclick="genSeries()">Make series</button>
+                    </div>
+                    <div class="row" style="margin-top:8px">
+                        <label>Style pictures (optional, up to 2): <input type="file" id="serRef" accept="image/*"></label>
+                        <button onclick="addSeriesRef()">Add</button>
+                        <button onclick="clearSeriesRef()">Remove all</button>
+                        <small id="serRefCount"></small>
+                    </div>
+                    <div id="serNote"></div>
+                    <h3 style="margin-top:14px">Approved series</h3>
+                    <div id="serApproved"><small>None yet.</small></div>
+                </div>
+
+                <div class="card" id="landingCard">
+                    <div class="card-head">
+                        <h2>Landing page</h2>
+                        <button class="push" onclick="loadLandingSetup()">Refresh</button>
+                    </div>
+                    <p><small>Builds a one-page product page from your catalog facts and real photo, then opens it in a real
+                            browser at phone and computer size and measures it. The page and both screenshots wait in the
+                            approval queue above. Nothing is published.</small></p>
+                    <div class="row">
+                        <select id="lpProduct"></select>
+                        <input type="text" id="lpLink" placeholder="Order link (optional), for example https://wa.me/91..." style="flex:1;min-width:220px">
+                        <button class="primary" id="lpGo" onclick="genLanding()">Make landing page</button>
+                    </div>
+                    <label class="check"><input type="checkbox" id="lpReal"> Use my real product photo instead of an AI image</label>
+                    <h3 style="margin-top:14px">Approved pages</h3>
+                    <div id="lpApproved"><small>None yet.</small></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-head">
+                        <h2>Meta drafts</h2>
+                        <button class="push" onclick="loadMeta()">Refresh</button>
+                    </div>
+                    <p><small>Every approved ad is kept here as a PAUSED draft. Nothing is sent to Meta. Download the ad
+                            pack to upload it yourself in Ads Manager.</small></p>
+                    <div id="metaDrafts"><small>Loading...</small></div>
+                </div>
+            </section>
+
+            <!-- SEO -->
+            <section class="view" data-view="seo">
+                <div class="card">
+                    <div class="card-head">
+                        <h2>Search listings (SEO)</h2>
+                        <button class="push" onclick="loadSeo()">Refresh</button>
+                    </div>
+                    <p><small>For each product the model writes a search title, meta description, page heading, image
+                            alt text and product schema, each with a reason. You see the before and after, edit or
+                            reject anything, then apply the approved changes. Every applied change can be rolled back.
+                            Nothing is changed in a shop until you press Apply.</small></p>
+                    <div class="row">
+                        <select id="seoShop" onchange="loadSeo()"></select>
+                        <button class="primary" id="seoGen" onclick="seoGenerate()">Write SEO for all products</button>
+                    </div>
+                    <div id="seoInfo"><small></small></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-head">
+                        <h2>Search Console data (optional)</h2>
+                    </div>
+                    <p><small>Upload the Queries export from Google Search Console (CSV). Real searches that match a
+                            product are shown to the model so the text uses words people actually search. Without it,
+                            the text is written from your catalog only.</small></p>
+                    <div class="row">
+                        <input type="file" id="gscFile" accept=".csv,text/csv">
+                        <button onclick="importGsc()">Import CSV</button>
+                    </div>
+                    <div id="gscInfo"><small></small></div>
+                </div>
+
+                <div id="seoList"></div>
+            </section>
+
+            <!-- EXPORT -->
+            <section class="view" data-view="export">
+                <div class="grid2">
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>Export to your shop</h2>
+                        </div>
+                        <p><small>Download your catalog as a CSV to import into Shopify or WooCommerce. Products come in
+                                as drafts, so nothing goes live by accident. Photos are on this computer, so the image
+                                column stays empty unless you give the web address where the photos will be
+                                hosted.</small></p>
+                        <input id="exportBase" type="text"
+                            placeholder="Photo host address (optional), e.g. https://example.com">
+                        <p class="row" style="margin-top:12px">
+                            <button onclick="exportCsv('shopify')">Download Shopify CSV</button>
+                            <button onclick="exportCsv('woocommerce')">Download WooCommerce CSV</button>
+                        </p>
+                        <div id="exportWarn"><small></small></div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>Send to your shop</h2>
+                        </div>
+                        <p><small>Sends products as drafts. Pressing again updates them instead of duplicating. Set the
+                                shop keys in .env first (see README).</small></p>
+                        <p id="syncBtns" class="row"></p>
+                        <div id="syncOut"><small></small></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SHOP SETUP -->
+            <section class="view" data-view="setup">
+                <div class="card" id="shopCard">
+                    <div class="card-head">
+                        <h2>Business details</h2><small id="sc-summary"></small>
+                    </div>
+                    <p><small>The business type and categories are sent to the model when it reads your shelf video, so
+                            every product gets a category from this list. Include "other" as a catch-all.</small></p>
+                    <div class="row" style="margin-bottom:10px">
+                        <select id="sc-preset">
+                            <option value="">Choose a preset...</option>
+                        </select>
+                        <button onclick="applyPreset()">Use preset</button>
+                    </div>
+                    <table class="kv">
+                        <tr>
+                            <td>Business type</td>
+                            <td><input type="text" id="sc-type"></td>
+                        </tr>
+                        <tr>
+                            <td>Categories</td>
+                            <td><input type="text" id="sc-cats" placeholder="kurta, saree, jeans, other"></td>
+                        </tr>
+                        <tr>
+                            <td>Extra facts to record</td>
+                            <td><input type="text" id="sc-attrs" placeholder="fabric, pattern"></td>
+                        </tr>
+                    </table>
+                    <button class="primary" onclick="saveShop()">Save shop setup</button>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div id="msg" role="status" aria-live="polite"></div>
+
+    <script>
+        let pid = null;
+        let items = [];
+        let products = [];
+        let shopCfg = null;
+        let attrNames = [];
+        const $ = id => document.getElementById(id);
+
+        function say(t, err) { $("msg").textContent = t; $("msg").className = err ? "err" : ""; }
+
+        function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;"); }
+
+        async function errText(r) {
+            const t = await r.text();
+            try {
+                const d = JSON.parse(t).detail;
+                return typeof d === "string" ? d : JSON.stringify(d);
+            } catch (e) { return t; }
+        }
+
+        function framePath(pic) {
+            return pic.replace(/\\/g, "/").replace(/^.*data\/frames\//, "");
+        }
+
+        function numOrNull(v) {
+            const n = parseFloat(v);
+            return isFinite(n) && n >= 0 ? n : null;
+        }
+
+        function marginText(price, cost) {
+            if (price == null || cost == null || price <= 0) return "";
+            return Math.max(0, Math.round((price - cost) / price * 1000) / 10) + "% off";
+        }
+
+        function csv(v) {
+            return v.split(",").map(x => x.trim()).filter(Boolean);
+        }
+
+        async function loadAttrNames() {
+            try {
+                const r = await fetch("/config");
+                if (r.ok) attrNames = (await r.json()).attributes || [];
+            } catch (e) { }
+        }
+
+        function factNames(extra) {
+            const seen = new Set(), out = [];
+            ["colour"].concat(attrNames, extra || []).forEach(n => {
+                const k = n.toLowerCase();
+                if (!seen.has(k)) { seen.add(k); out.push(n); }
+            });
+            return out;
+        }
+
+        async function upload() {
+            const f = $("video").files[0];
+            if (!f) return say("Pick a video first.", true);
+            $("go").disabled = true;
+            say("Reading the video... this takes about 30 seconds.");
+            try {
+                const fd = new FormData();
+                fd.append("file", f);
+                fd.append("notes", $("notes").value);
+                const r = await fetch("/catalog/upload", { method: "POST", body: fd });
+                if (!r.ok) throw new Error(await errText(r));
+                const d = await r.json();
+                pid = d.proposal_id;
+                items = d.items;
+                await loadAttrNames();
+                render();
+                say("Draft ready. Fix anything wrong, then approve.");
+            } catch (e) { say("Failed: " + e.message, true); }
+            $("go").disabled = false;
+        }
+
+        function liveFlags(it) {
+            const edited = it._edited || {};
+            const filled = k => String(it[k] == null ? "" : it[k]).trim() !== "";
+            const out = [];
+            if (!it._checked) {
+                for (const f of it.check || []) {
+                    if (/^no price found|^price read differently/.test(f)) { if (filled("price") && (edited.price || /^no price/.test(f))) continue; }
+                    else if (/^no brand found/.test(f)) { if (filled("brand")) continue; }
+                    else if (/^name read differently/.test(f)) { if (filled("name") && edited.name) continue; }
+                    else if ((edited.name && filled("name")) || (edited.price && filled("price"))) continue;
+                    out.push(f);
+                }
+            }
+            if (!filled("price") && !out.some(f => /^no price/.test(f))) out.push("no price found");
+            if (!filled("brand") && !out.some(f => /^no brand/.test(f))) out.push("no brand found");
+            return out;
+        }
+
+        function statusHtml(i) {
+            const why = liveFlags(items[i]);
+            return why.length
+                ? '<span title="' + esc(why.join("; ")) + '" style="color:#b45309;font-size:12px">&#9888; ' + esc(why[0]) +
+                (why.length > 1 ? " (+" + (why.length - 1) + " more)" : "") + '</span> <button onclick="markChecked(' + i + ')" style="font-size:11px">Looks right</button>'
+                : '<span style="color:#0a6">ok</span>';
+        }
+
+        function refreshFlags(i) {
+            const cell = $("st-" + i);
+            if (cell) cell.innerHTML = statusHtml(i);
+            updateCount();
+        }
+
+        function markChecked(i) { items[i]._checked = true; refreshFlags(i); }
+
+        function updateCount() {
+            const flagged = items.filter(it => liveFlags(it).length).length;
+            $("count").textContent = "(" + items.length + " items" + (flagged ? ", " + flagged + " to check" : "") + ")";
+        }
+
+        function render() {
+            $("draft").style.display = "block";
+            updateCount();
+            $("rows").innerHTML = "";
+            const fields = ["name", "brand", "category", "price", "cost", "stock"];
+            items.forEach((it, i) => {
+                const tr = document.createElement("tr");
+                const pic = it.thumb || it.best_frame;
+                const photo = pic
+                    ? '<img src="/frames/' + esc(framePath(pic)) + '" style="height:72px;border-radius:6px">' : "";
+                tr.innerHTML = "<td>" + photo + "</td>" +
+                    fields.map(k =>
+                        '<td><input type="text" value="' + esc(it[k] == null ? "" : it[k]) + '" data-i="' + i + '" data-k="' + k + '"' +
+                        (["price", "cost", "stock"].includes(k) ? ' style="width:64px"' : ["name", "brand"].includes(k) ? ' style="min-width:120px"' : ' style="min-width:80px"') + "></td>").join("") +
+                    '<td id="st-' + i + '">' + statusHtml(i) + "</td>" +
+                    '<td><button onclick="del(' + i + ')">Delete</button></td>';
+                $("rows").appendChild(tr);
+
+                const attrs = it.attrs || {};
+                const dr = document.createElement("tr");
+                dr.innerHTML = '<td></td><td colspan="8" style="padding-bottom:12px"><small>Description</small> ' +
+                    '<input type="text" data-i="' + i + '" data-k="description" value="' + esc(it.description || "") + '" style="width:45%;min-width:200px"> ' +
+                    factNames(Object.keys(attrs)).map(n =>
+                        '<small>' + esc(n) + '</small> <input type="text" data-i="' + i + '" data-a="' + esc(n) + '" value="' +
+                        esc(n.toLowerCase() === "colour" ? (it.colour || "") : (attrs[n] || "")) + '" style="width:110px"> ').join("") +
+                    "</td>";
+                $("rows").appendChild(dr);
+            });
+            document.querySelectorAll("#rows input").forEach(inp => {
+                inp.oninput = () => {
+                    const it = items[inp.dataset.i];
+                    if (inp.dataset.a !== undefined) {
+                        if (inp.dataset.a.toLowerCase() === "colour") it.colour = inp.value;
+                        else { it.attrs = it.attrs || {}; it.attrs[inp.dataset.a] = inp.value; }
+                    } else {
+                        it[inp.dataset.k] = inp.value;
+                        (it._edited = it._edited || {})[inp.dataset.k] = true;
+                    }
+                    refreshFlags(inp.dataset.i);
+                };
+            });
+        }
+
+        function del(i) { items.splice(i, 1); render(); }
+
+        function addRow() {
+            items.push({ name: "", brand: "", category: "other", price: "", cost: "", stock: "", description: "", attrs: {}, check: [] });
+            render();
+        }
+
+        async function approve() {
+            $("approve").disabled = true;
+            try {
+                const num = v => { const n = parseFloat(v); return isFinite(n) && n >= 0 ? n : null; };
+                const clean = items.filter(it => (it.name || "").trim()).map(({ _edited, _checked, ...it }) => ({
+                    ...it, price: num(it.price), cost: num(it.cost),
+                    stock: num(it.stock) === null ? 0 : Math.floor(num(it.stock)),
+                    check: liveFlags({ ...it, _edited, _checked }),
+                }));
+                let r = await fetch("/catalog/draft/" + pid, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ items: clean }),
+                });
+                if (!r.ok) throw new Error(await errText(r));
+                r = await fetch("/proposals/" + pid + "/approve", { method: "POST" });
+                if (!r.ok) throw new Error(await errText(r));
+                const ap = await r.json();
+                say("Done: " + (typeof ap.added === "number"
+                    ? ap.added + " added" + (ap.skipped ? ", " + ap.skipped + " already in your catalog" : "") + "."
+                    : clean.length + " products imported."));
+                loadProducts(); loadAudit(); loadReport();
+                $("draft").style.display = "none";
+            } catch (e) { say("Failed: " + e.message, true); }
+            $("approve").disabled = false;
+        }
+
+        async function loadProducts() {
+            await loadAttrNames();
+            const r = await fetch("/products");
+            if (!r.ok) return say("Failed: " + await errText(r), true);
+            products = await r.json();
+            $("pcount").textContent = "(" + products.length + ")";
+            $("prows").innerHTML = products.length ? "" : '<tr><td colspan="9"><small>No products yet.</small></td></tr>';
+            products.forEach(p => {
+                const tr = document.createElement("tr");
+                tr.dataset.id = p.id;
+                tr.className = "main";
+                const photo = p.photo ? '<img src="' + esc(p.photo) + '" style="height:48px;border-radius:6px">' : "";
+                const stockCell = p.variant_count > 1
+                    ? '<small>' + p.stock + " in " + p.variant_count + " variants</small>"
+                    : '<input type="text" class="num f-stock" value="' + esc(p.stock) + '">';
+                tr.innerHTML = "<td>" + photo + "</td>" +
+                    '<td><input type="text" class="txt f-name" value="' + esc(p.name) + '"></td>' +
+                    '<td><input type="text" class="txt f-brand" value="' + esc(p.brand || "") + '"></td>' +
+                    '<td><input type="text" class="txt f-category" value="' + esc(p.category || "") + '"></td>' +
+                    '<td><input type="text" class="num f-price" value="' + esc(p.price == null ? "" : p.price) + '"></td>' +
+                    '<td><input type="text" class="num f-cost" value="' + esc(p.cost == null ? "" : p.cost) + '"></td>' +
+                    "<td>" + stockCell + "</td>" +
+                    '<td class="margin">' + marginText(p.price, p.cost) + "</td>" +
+                    '<td style="white-space:nowrap">' +
+                    '<button onclick="saveProduct(' + p.id + ')">Save</button> ' +
+                    '<button onclick="genAd(' + p.id + ')">Ad</button> ' +
+                    '<button onclick="deleteProduct(' + p.id + ')">Delete</button></td>';
+                $("prows").appendChild(tr);
+
+                const attrs = p.attrs || {};
+                const dr = document.createElement("tr");
+                dr.dataset.id = p.id;
+                dr.className = "det";
+                dr.innerHTML = '<td></td><td colspan="8" style="padding-bottom:12px"><small>Description</small> ' +
+                    '<input type="text" class="f-desc" value="' + esc(p.description || "") + '" style="width:45%;min-width:200px"> ' +
+                    factNames(Object.keys(attrs)).map(n =>
+                        '<small>' + esc(n) + '</small> <input type="text" class="f-attr" data-a="' + esc(n) + '" value="' +
+                        esc(attrs[n] || "") + '" style="width:110px"> ').join("") + "</td>";
+                $("prows").appendChild(dr);
+            });
+        }
+
+        async function saveProduct(id) {
+            const row = document.querySelector('#prows tr.main[data-id="' + id + '"]');
+            const det = document.querySelector('#prows tr.det[data-id="' + id + '"]');
+            const p = products.find(x => x.id === id);
+            const val = c => { const el = row.querySelector(c); return el ? el.value.trim() : null; };
+            const name = val(".f-name");
+            if (!name) return say("Name cannot be empty.", true);
+            for (const [c, label] of [[".f-price", "MRP"], [".f-cost", "Cost"]]) {
+                const t = val(c);
+                if (t && numOrNull(t) === null) return say(label + " must be a number, 0 or more.", true);
+            }
+            const attrs = {};
+            det.querySelectorAll(".f-attr").forEach(el => { attrs[el.dataset.a] = el.value.trim() || null; });
+            const body = {
+                name, brand: val(".f-brand") || null, category: val(".f-category") || null,
+                price: numOrNull(val(".f-price")), cost: numOrNull(val(".f-cost")),
+                description: det.querySelector(".f-desc").value.trim() || null, attrs,
+            };
+            try {
+                let r = await fetch("/products/" + id, {
+                    method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body),
+                });
+                if (!r.ok) throw new Error(await errText(r));
+                const stockText = val(".f-stock");
+                if (stockText !== null && p.variant_count === 1) {
+                    const stock = numOrNull(stockText);
+                    if (stock === null) throw new Error("Stock must be a number, 0 or more.");
+                    if (Math.floor(stock) !== p.stock) {
+                        const full = await (await fetch("/products/" + id)).json();
+                        r = await fetch("/variants/" + full.variants[0].id, {
+                            method: "PATCH", headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ stock: Math.floor(stock) }),
+                        });
+                        if (!r.ok) throw new Error(await errText(r));
+                    }
+                }
+                say("Product #" + id + " saved.");
+                loadProducts(); loadAudit();
+            } catch (e) { say("Failed: " + e.message, true); }
+        }
+
+        async function deleteProduct(id) {
+            const p = products.find(x => x.id === id);
+            if (!confirm("Delete " + (p ? p.name : "this product") + "?")) return;
+            const r = await fetch("/products/" + id, { method: "DELETE" });
+            say(r.ok ? "Product #" + id + " deleted." : "Failed: " + await errText(r), !r.ok);
+            loadProducts(); loadAudit();
+        }
+
+        async function addProduct() {
+            const name = $("np-name").value.trim();
+            if (!name) return say("Enter a product name.", true);
+            for (const [i, label] of [["np-price", "MRP"], ["np-cost", "Cost"], ["np-stock", "Stock"]]) {
+                const t = $(i).value.trim();
+                if (t && numOrNull(t) === null) return say(label + " must be a number, 0 or more.", true);
+            }
+            const body = {
+                name, brand: $("np-brand").value.trim() || null,
+                price: numOrNull($("np-price").value), cost: numOrNull($("np-cost").value),
+                stock: Math.floor(numOrNull($("np-stock").value) || 0),
+            };
+            const r = await fetch("/products", {
+                method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body),
+            });
+            if (!r.ok) return say("Failed: " + await errText(r), true);
+            ["np-name", "np-brand", "np-price", "np-cost", "np-stock"].forEach(i => $(i).value = "");
+            say("Product added.");
+            loadProducts(); loadAudit();
+        }
+
+        function fillShop(c) {
+            shopCfg = c;
+            $("sc-type").value = c.business_type;
+            $("sc-cats").value = c.categories.join(", ");
+            $("sc-attrs").value = c.attributes.join(", ");
+            $("sc-summary").textContent = c.business_type + " (" + c.categories.length + (c.categories.length === 1 ? " category)" : " categories)");
+        }
+
+        async function loadShop() {
+            const [cr, pr] = await Promise.all([fetch("/config"), fetch("/config/presets")]);
+            if (cr.ok) fillShop(await cr.json());
+            if (pr.ok) {
+                const presets = await pr.json();
+                $("sc-preset").innerHTML = '<option value="">Choose a preset...</option>' +
+                    Object.keys(presets).map(n => '<option value="' + esc(n) + '">' + esc(n) + "</option>").join("");
+            }
+        }
+
+        async function applyPreset() {
+            const name = $("sc-preset").value;
+            if (!name) return say("Pick a preset first.", true);
+            const r = await fetch("/config/preset/" + encodeURIComponent(name), { method: "POST" });
+            if (!r.ok) return say("Failed: " + await errText(r), true);
+            fillShop(await r.json());
+            say("Preset " + name + " applied.");
+            loadAudit();
+        }
+
+        async function saveShop() {
+            const type = $("sc-type").value.trim();
+            const cats = csv($("sc-cats").value);
+            if (!type) return say("Enter a business type.", true);
+            if (!cats.length) return say("Enter at least one category.", true);
+            const body = {
+                business_type: type, currency: (shopCfg && shopCfg.currency) || "Rs",
+                categories: cats, variant_axes: (shopCfg && shopCfg.variant_axes) || [],
+                attributes: csv($("sc-attrs").value),
+            };
+            const r = await fetch("/config", {
+                method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body),
+            });
+            if (!r.ok) return say("Failed: " + await errText(r), true);
+            fillShop(await r.json());
+            say("Shop setup saved.");
+            loadAudit();
+        }
+
+        async function runPlanner() {
+            $("plan").disabled = true;
+            say("Planner is thinking...");
+            try {
+                const r = await fetch("/planner/run", { method: "POST" });
+                if (!r.ok) throw new Error(await errText(r));
+                say("Planner proposal added.");
+                loadQueue(); loadAudit(); loadReport();
+            } catch (e) { say("Failed: " + e.message, true); }
+            $("plan").disabled = false;
+        }
+
+        function describe(p) {
+            if (p.kind === "promotion") {
+                return p.payload.picks.map(k =>
+                    "<div><b>" + esc(k.name) + "</b> (" + k.discount_pct + "% off, " + k.stock + " in stock)<br><small>" +
+                    esc(k.reason) + '</small><br><button onclick="genAd(' + k.id + ')">Generate ad</button></div>').join("");
+            }
+            if (p.kind === "ad_draft") {
+                const d = p.payload;
+                const firstOk = Math.max(0, d.variants.findIndex(v => !v.blocked));
+                const vs = d.variants.map((v, oi) => {
+                    const flags = (v.flags || []).map(f => '<div style="color:#b45309;font-size:12px">&#9888; ' + esc(f) + "</div>").join("");
+                    const open = (v.flags || []).some(f => f.indexOf("unsupported claim") === 0);
+                    return '<div class="adv" data-orig="' + oi + '" style="margin:8px 0">' +
+                        '<label style="font-size:12px"><input type="radio" class="pick" name="pick-' + p.id + '"' + (oi === firstOk ? " checked" : "") + '> Use this line</label>' +
+                        '<input type="text" class="h" maxlength="40" value="' + esc(v.headline) + '" style="width:100%;font-weight:bold">' +
+                        '<input type="text" class="t" maxlength="125" value="' + esc(v.text) + '" style="width:100%">' +
+                        '<input type="hidden" class="c" value="' + esc(v.cta || "Shop Now") + '">' +
+                        (v.blocked ? ' <b style="color:#c00">BLOCKED: edit or remove this line</b>' : "") + flags +
+                        (open ? '<label style="font-size:12px"><input type="checkbox" class="ok"' + (v.confirmed ? " checked" : "") +
+                            '> I confirm these claims are true</label> ' : "") +
+                        '<button onclick="this.closest(\'.adv\').remove()">Remove line</button></div>';
+                }).join("");
+                return '<div style="display:flex;gap:14px;align-items:flex-start">' +
+                    (d.image_url ? '<img src="' + d.image_url + '" style="width:180px;border-radius:8px;flex:none">' : "") +
+                    '<div style="flex:1"><small>' + esc(d.product_name) + (d.image_source ? " &middot; image: " + esc(d.image_source) : "") + "</small>" +
+                    '<div><small>Pick the one line you want. Only the selected line is kept when you save or approve.</small></div>' + vs +
+                    '<label style="font-size:13px">Daily budget Rs <input type="number" class="bud" min="1" value="' + d.daily_budget + '" style="width:80px"></label> ' +
+                    '<label style="font-size:13px">Landing link <input type="text" class="lnk" placeholder="https://your-shop.com/product" value="' + esc(d.link || "") + '" style="width:260px"></label> ' +
+                    '<button onclick="saveAd(' + p.id + ')">Save changes</button></div></div>';
+            }
+            if (p.kind === "ad_series") {
+                const d = p.payload;
+                const slots = d.slots.map((s, i) =>
+                    '<div class="sers" data-slot="' + i + '" style="width:200px">' +
+                    (s.url ? '<img src="' + esc(s.url) + '" style="width:200px;border-radius:8px">' :
+                        '<div style="color:#c00;font-size:12px">' + esc(s.error || "No picture") + "</div>") +
+                    '<input type="text" class="sh" maxlength="40" value="' + esc(s.headline) + '" style="width:100%;font-weight:bold">' +
+                    '<input type="text" class="st" maxlength="125" value="' + esc(s.text) + '" style="width:100%">' +
+                    '<input type="hidden" class="sc" value="' + esc(s.cta) + '">' +
+                    (s.blocked ? '<b style="color:#c00;font-size:12px">BLOCKED: edit this line</b>' : "") +
+                    (s.flags || []).map(f => '<div style="color:#b45309;font-size:12px">&#9888; ' + esc(f) + "</div>").join("") +
+                    ((s.flags || []).some(f => f.indexOf("unsupported claim") === 0) ?
+                        '<label style="font-size:12px"><input type="checkbox" class="sk"' + (s.confirmed ? " checked" : "") + '> I confirm these claims are true</label>' : "") +
+                    "</div>").join("");
+                const c = d.consistency || {};
+                const loc = d.localized ? '<div style="width:200px"><img src="' + esc(d.localized.url) + '" style="width:200px;border-radius:8px"><small>' +
+                    esc(d.localized.label) + " version of picture " + (d.localized.slot + 1) + "</small></div>" : "";
+                return "<small>" + esc(d.product_name) + " &middot; look consistency " + c.score + "/100 &middot; style from " + esc(d.style_source) + "</small>" +
+                    '<div><small>' + esc(c.note || "") + "</small></div>" +
+                    (d.localized_error ? '<div style="color:#c00;font-size:12px">Translation: ' + esc(d.localized_error) + "</div>" : "") +
+                    '<div style="display:flex;gap:10px;flex-wrap:wrap;margin:8px 0">' + slots + loc + "</div>" +
+                    '<button onclick="saveSeries(' + p.id + ')">Save changes</button>';
+            }
+            if (p.kind === "landing_page") {
+                const d = p.payload, c = d.content, byKey = {};
+                (d.lines || []).forEach(l => { byKey[l.key] = l; });
+                const field = (key, label, inner) => {
+                    const l = byKey[key] || {};
+                    const open = (l.flags || []).some(f => f.indexOf("unsupported claim") === 0);
+                    return '<div style="margin:6px 0"><small>' + esc(label) + "</small>" + inner +
+                        (l.blocked ? '<div style="color:#c00;font-size:12px"><b>BLOCKED:</b> edit this line</div>' : "") +
+                        (l.flags || []).map(f => '<div style="color:#b45309;font-size:12px">&#9888; ' + esc(f) + "</div>").join("") +
+                        (open ? '<label style="font-size:12px"><input type="checkbox" class="lk" data-key="' + key + '"' + (l.confirmed ? " checked" : "") + "> I confirm these claims are true</label>" : "") + "</div>";
+                };
+                const rows = {};
+                (d.checks || []).forEach(k => { (rows[k.id] = rows[k.id] || { label: k.label })[k.viewport] = k; });
+                const mark = k => !k ? "" : '<span title="' + esc(k.message) + '" style="color:' + (k.pass ? "#0a7d33" : "#c00") + ';font-weight:700">' + (k.pass ? "&#10003; pass" : "&#10007; FAIL") + "</span>";
+                const table = '<table style="width:100%;font-size:12px"><tr><th style="text-align:left">Check</th><th>Phone</th><th>Computer</th></tr>' +
+                    Object.values(rows).map(r => "<tr><td>" + esc(r.label) + '</td><td style="text-align:center">' + mark(r.phone) +
+                        '</td><td style="text-align:center">' + mark(r.desktop) + "</td></tr>").join("") + "</table>";
+                const where = k => k.viewport === "phone" ? "phone" : "computer";
+                const fails = (d.checks || []).filter(k => !k.pass).map(k =>
+                    '<div style="color:#c00;font-size:12px">&#10007; ' + esc(k.label) + " (" + where(k) + "): " + esc(k.message) + "</div>").join("");
+                const rep = d.repair && d.repair.applied
+                    ? '<div style="font-size:12px;margin:4px 0">One automatic layout fix was applied. Fixed: ' +
+                      (d.repair.fixed.length ? d.repair.fixed.map(k => esc(k.label) + " (" + where(k) + ")").join(", ") : "nothing") +
+                      (d.repair.still_failing.length ? ". Still failing: " + d.repair.still_failing.map(k => esc(k.label) + " (" + where(k) + ")").join(", ") : "") + ".</div>" : "";
+                const shots = '<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start">' +
+                    '<div style="width:180px"><small>Phone (390 px)</small><br><a href="/landing/' + p.id + "/shot/phone?v=" + d.stamp + '" target="_blank"><img src="/landing/' + p.id + "/shot/phone?v=" + d.stamp + '" style="width:180px;border:1px solid #ddd;border-radius:6px"></a></div>' +
+                    '<div style="width:340px"><small>Computer (1280 px)</small><br><a href="/landing/' + p.id + "/shot/desktop?v=" + d.stamp + '" target="_blank"><img src="/landing/' + p.id + "/shot/desktop?v=" + d.stamp + '" style="width:340px;border:1px solid #ddd;border-radius:6px"></a></div></div>';
+                const bullets = c.bullets.map((b, i) => field("bullet_" + (i + 1), "Point " + (i + 1),
+                    '<input type="text" class="lb" maxlength="80" value="' + esc(b) + '" style="width:100%">')).join("") +
+                    (c.bullets.length < 5 ? '<input type="text" class="lb" maxlength="80" placeholder="Add another point (optional)" style="width:100%">' : "");
+                return '<div class="lp-edit"><small>' + esc(d.product_name) + " &middot; price shown: " + esc(d.page.price_text) +
+                    (d.page.mrp_text ? " (MRP " + esc(d.page.mrp_text) + " struck through)" : "") + " &middot; image: " + esc(d.image_source || "") + '</small> <a href="/landing/' + p.id + '/page" target="_blank">Open the page</a>' +
+                    '<div style="margin:6px 0">' + shots + "</div>" +
+                    '<div style="margin:6px 0"><b style="font-size:13px">' + (d.checks_ok ? '<span style="color:#0a7d33">All checks passed</span>' : '<span style="color:#c00">Some checks failed</span>') + "</b>" + table + fails + rep + "</div>" +
+                    (d.missing || []).map(m => '<div style="color:#b45309;font-size:12px">&#9888; ' + esc(m) + "</div>").join("") +
+                    field("headline", "Headline", '<input type="text" class="lh" maxlength="60" value="' + esc(c.headline) + '" style="width:100%;font-weight:bold">') +
+                    field("subheading", "Subheading", '<input type="text" class="ls" maxlength="120" value="' + esc(c.subheading) + '" style="width:100%">') +
+                    bullets +
+                    field("description", "Description", '<textarea class="ld" maxlength="500" rows="3" style="width:100%">' + esc(c.description) + "</textarea>") +
+                    field("cta", "Button text (used when an order link is set)", '<input type="text" class="lc" maxlength="20" value="' + esc(c.cta) + '" style="width:220px">') +
+                    '<div style="margin:6px 0"><small>Order link</small><input type="text" class="ll" placeholder="https://..." value="' + esc(d.link || "") + '" style="width:100%"></div>' +
+                    '<button onclick="saveLanding(' + p.id + ')">Save changes and re-check</button></div>';
+            }
+            if (p.kind === "catalog_draft") return "<small>" + p.payload.items.length + " catalog items</small>";
+            return "<small>" + esc(JSON.stringify(p.payload)).slice(0, 200) + "</small>";
+        }
+
+        async function loadQueue() {
+            const r = await fetch("/proposals?status=pending");
+            const list = await r.json();
+            $("queue").innerHTML = list.length ? "" : "<p><small>Nothing pending.</small></p>";
+            list.forEach(p => {
+                const d = document.createElement("div");
+                d.className = "prop";
+                d.dataset.pid = p.id;
+                d.innerHTML = "<b>#" + p.id + " " + esc(p.kind) + "</b><br>" + describe(p) + "<br>" +
+                    '<button class="primary" onclick="decide(' + p.id + ',\'approve\')">Approve</button> ' +
+                    '<button onclick="decide(' + p.id + ',\'reject\')">Reject</button>';
+                $("queue").appendChild(d);
+            });
+        }
+
+        async function saveAd(pid, quiet) {
+            const card = document.querySelector('.prop[data-pid="' + pid + '"]');
+            if (!card || !card.querySelector(".bud")) return true;
+            const picked = [...card.querySelectorAll(".adv")].filter(el => (el.querySelector(".pick") || {}).checked);
+            if (!picked.length) { say("Pick the ad line you want to use.", true); return false; }
+            const variants = picked.map(el => ({
+                headline: el.querySelector(".h").value, text: el.querySelector(".t").value,
+                cta: el.querySelector(".c").value, confirmed: !!(el.querySelector(".ok") || {}).checked,
+                orig: parseInt(el.dataset.orig, 10),
+            }));
+            const r = await fetch("/ads/draft/" + pid, {
+                method: "PUT", headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ variants, daily_budget: parseFloat(card.querySelector(".bud").value), link: card.querySelector(".lnk").value }),
+            });
+            if (!r.ok) { say("Failed: " + await errText(r), true); return false; }
+            if (!quiet) { say("Ad #" + pid + " saved."); loadQueue(); loadAudit(); }
+            return true;
+        }
+
+        async function saveSeries(pid, quiet) {
+            const card = document.querySelector('.prop[data-pid="' + pid + '"]');
+            if (!card || !card.querySelector(".sers")) return true;
+            const slots = [...card.querySelectorAll(".sers")].map(el => ({
+                slot: parseInt(el.dataset.slot, 10), headline: el.querySelector(".sh").value, text: el.querySelector(".st").value,
+                cta: el.querySelector(".sc").value, confirmed: !!(el.querySelector(".sk") || {}).checked,
+            }));
+            const r = await fetch("/series/" + pid, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ slots }) });
+            if (!r.ok) { say("Failed: " + await errText(r), true); return false; }
+            if (!quiet) { say("Series #" + pid + " saved."); loadQueue(); loadAudit(); }
+            return true;
+        }
+
+        async function loadSeriesSetup() {
+            const r = await fetch("/products");
+            if (r.ok) {
+                const list = await r.json();
+                const cur = $("serProduct").value;
+                $("serProduct").innerHTML = list.map(p => '<option value="' + p.id + '">' + esc(p.name) + (p.photo ? "" : " (no photo)") + "</option>").join("");
+                if (cur) $("serProduct").value = cur;
+            }
+            const c = await (await fetch("/series/config")).json();
+            const cur = $("serLang").value;
+            $("serLang").innerHTML = '<option value="">No translated version</option>' + Object.entries(c.languages).map(([k, v]) =>
+                '<option value="' + k + '"' + (v.ready ? "" : " disabled") + ">" + esc(v.name) + (v.ready ? "" : " (not available here)") + "</option>").join("");
+            $("serLang").value = cur;
+            refreshSeriesRef();
+            loadSeriesApproved();
+        }
+
+        async function refreshSeriesRef() {
+            const id = $("serProduct").value;
+            if (!id) return;
+            const r = await fetch("/series/references/" + id);
+            if (r.ok) $("serRefCount").textContent = (await r.json()).count + " style picture(s)";
+        }
+
+        async function addSeriesRef() {
+            const f = $("serRef").files[0], id = $("serProduct").value;
+            if (!f || !id) return say("Choose a product and a picture first.", true);
+            const fd = new FormData();
+            fd.append("file", f);
+            const r = await fetch("/series/references/" + id, { method: "POST", body: fd });
+            if (!r.ok) return say("Failed: " + await errText(r), true);
+            $("serRef").value = "";
+            refreshSeriesRef();
+        }
+
+        async function clearSeriesRef() {
+            await fetch("/series/references/" + $("serProduct").value, { method: "DELETE" });
+            refreshSeriesRef();
+        }
+
+        async function genSeries() {
+            const id = parseInt($("serProduct").value, 10);
+            if (!id) return say("Choose a product.", true);
+            $("serGo").disabled = true;
+            say("Making four pictures... this can take a minute or two.");
+            try {
+                const r = await fetch("/series/generate", {
+                    method: "POST", headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ product_id: id, language: $("serLang").value || null }),
+                });
+                if (!r.ok) throw new Error(await errText(r));
+                const d = await r.json();
+                say("Series added to the queue (" + d.images + " of 4 pictures made, consistency " + d.consistency.score + "/100)." +
+                    (d.localized_error ? " Translation failed: " + d.localized_error : ""), d.images < 4);
+                loadQueue(); loadAudit();
+            } catch (e) { say("Failed: " + e.message, true); }
+            $("serGo").disabled = false;
+        }
+
+        async function loadSeriesApproved() {
+            const r = await fetch("/series/approved");
+            if (!r.ok) return;
+            const rows = await r.json();
+            $("serApproved").innerHTML = rows.length ? rows.map(s =>
+                '<div class="row" style="margin:6px 0"><img src="' + esc(s.thumb) + '" style="height:48px;border-radius:6px"> <span>#' + s.id + " " + esc(s.product_name) +
+                " <small>(consistency " + s.consistency + (s.localized ? ", " + esc(s.localized) : "") + ')</small></span> <a href="/series/' + s.id + '/pack">Download pack</a></div>').join("")
+                : "<small>None yet.</small>";
+        }
+
+        async function saveLanding(pid, quiet) {
+            const card = document.querySelector('.prop[data-pid="' + pid + '"]');
+            if (!card || !card.querySelector(".lp-edit")) return true;
+            const body = {
+                headline: card.querySelector(".lh").value, subheading: card.querySelector(".ls").value,
+                bullets: [...card.querySelectorAll(".lb")].map(i => i.value),
+                description: card.querySelector(".ld").value, cta: card.querySelector(".lc").value,
+                link: card.querySelector(".ll").value,
+                confirmed: [...card.querySelectorAll(".lk:checked")].map(i => i.dataset.key),
+            };
+            if (!quiet) say("Saving and checking the page in a browser... about 15 seconds.");
+            const r = await fetch("/landing/" + pid, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+            if (!r.ok) { say("Failed: " + await errText(r), true); return false; }
+            if (!quiet) { say("Page #" + pid + " saved and checked."); loadQueue(); loadAudit(); }
+            return true;
+        }
+
+        async function loadLandingSetup() {
+            const r = await fetch("/products");
+            if (r.ok) {
+                const list = await r.json();
+                const cur = $("lpProduct").value;
+                $("lpProduct").innerHTML = list.map(p => '<option value="' + p.id + '">' + esc(p.name) + (p.photo ? "" : " (no photo)") + "</option>").join("");
+                if (cur) $("lpProduct").value = cur;
+            }
+            loadLandingApproved();
+        }
+
+        async function loadLandingApproved() {
+            const r = await fetch("/landing/approved");
+            if (!r.ok) return;
+            const rows = await r.json();
+            $("lpApproved").innerHTML = rows.length ? rows.map(s =>
+                '<div class="row" style="margin:6px 0"><img src="/landing/' + s.id + "/shot/phone?v=" + s.stamp + '" style="height:56px;border-radius:6px;border:1px solid #ddd"> <span>#' + s.id + " " + esc(s.product_name) +
+                " <small>(" + (s.checks_ok ? "all checks passed" : "some checks failed") + ')</small></span> <a href="/landing/' + s.id + '/page" target="_blank">Open page</a> <a href="/landing/' + s.id + '/pack">Download pack</a></div>').join("")
+                : "<small>None yet.</small>";
+        }
+
+        async function genLanding() {
+            const id = parseInt($("lpProduct").value, 10);
+            if (!id) return say("Choose a product.", true);
+            $("lpGo").disabled = true;
+            say("Writing the page and checking it in a browser... about 20 seconds.");
+            try {
+                const r = await fetch("/landing/generate", {
+                    method: "POST", headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ product_id: id, link: $("lpLink").value, use_real_photo: $("lpReal").checked }),
+                });
+                if (!r.ok) throw new Error(await errText(r));
+                const d = await r.json();
+                say("Landing page added to the queue." + (d.checks_ok ? " All checks passed." : " " + d.failed.length + " check(s) failed. See the queue for details."), !d.checks_ok);
+                loadQueue(); loadAudit();
+            } catch (e) { say("Failed: " + e.message, true); }
+            $("lpGo").disabled = false;
+        }
+
+        const _lpLoadQueue = loadQueue;
+        loadQueue = async function () { await _lpLoadQueue(); loadLandingApproved(); };
+        const _lpSeriesSetup = loadSeriesSetup;
+        loadSeriesSetup = async function () { await _lpSeriesSetup(); loadLandingSetup(); };
+
+        async function decide(id, action) {
+            if (action === "approve" && !(await saveAd(id, true))) return;
+            if (action === "approve" && !(await saveSeries(id, true))) return;
+            if (action === "approve" && !(await saveLanding(id, true))) return;
+            const r = await fetch("/proposals/" + id + "/" + action, { method: "POST" });
+            const word = action === "approve" ? "approved" : "rejected";
+            if (r.ok) {
+                const d = await r.json();
+                const extra = d.added !== undefined
+                    ? " " + d.added + " added" + (d.skipped ? ", " + d.skipped + " already in your catalog" : "") + "." : "";
+                say("Proposal #" + id + " " + word + "." + (d.meta_draft ? " Saved as a paused draft, not sent to Meta." : extra));
+                loadProducts();
+            } else say("Failed: " + await errText(r), true);
+            loadQueue(); loadAudit(); loadReport(); loadMeta(); loadSync(); loadSeriesApproved();
+        }
+
+        async function loadKill() {
+            try {
+                const k = await (await fetch("/killswitch")).json();
+                document.body.classList.toggle("ks-on", !!k.on);
+                $("ksBanner").style.display = k.on ? "block" : "none";
+                $("ksText").textContent = "Everything is paused" + (k.reason ? ": " + k.reason : "");
+                $("ksBtn").disabled = !!k.on;
+            } catch (e) { /* page still works if this fails */ }
+        }
+
+        async function setKill(on) {
+            const r = await fetch("/killswitch", {
+                method: "POST", headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ on, reason: on ? $("ksReason").value : "" }),
+            });
+            if (!r.ok) return say("Failed: " + await errText(r), true);
+            if (on) $("ksReason").value = "";
+            say(on ? "Everything is paused." : "Resumed.");
+            loadKill(); loadAudit();
+        }
+
+        async function loadAudit() {
+            const r = await fetch("/audit?limit=15");
+            const rows = await r.json();
+            $("auditRows").innerHTML = rows.map(a =>
+                "<tr><td>" + esc(a.ts) + "</td><td>" + esc(a.actor) + "</td><td>" +
+                esc(a.action) + "</td><td>" + esc(a.detail || "") + "</td></tr>").join("");
+        }
+
+        async function genAd(productId) {
+            say("Writing ad copy and making the image... about 20 seconds.");
+            try {
+                const r = await fetch("/ads/generate", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ product_id: productId, daily_budget: 200, use_real_photo: $("realPhoto").checked }),
+                });
+                if (!r.ok) throw new Error(await errText(r));
+                say("Ad draft added to the queue.");
+                loadQueue(); loadAudit(); loadReport();
+            } catch (e) { say("Failed: " + e.message, true); }
+        }
+
+        const SHOP_LABEL = { webhook: "Your own site", shopify: "Shopify", woocommerce: "WooCommerce" };
+        async function loadSync() {
+            try {
+                const cfg = await (await fetch("/sync/config")).json();
+                $("syncBtns").innerHTML = Object.keys(SHOP_LABEL).map(k =>
+                    `<button ${cfg[k] ? "" : "disabled title='Not set up in .env'"} onclick="syncShop('${k}')">Send to ${SHOP_LABEL[k]}</button>`).join(" ");
+            } catch (e) { $("syncBtns").textContent = ""; }
+        }
+        async function syncShop(shop) {
+            const out = $("syncOut"); out.textContent = "Sending...";
+            try {
+                const r = await fetch("/sync/" + shop, { method: "POST" });
+                if (!r.ok) throw new Error(await errText(r));
+                const d = await r.json(), k = d.counts;
+                const lines = d.results.filter(x => x.status === "failed" || x.status === "skipped")
+                    .map(x => "- " + x.name + ": " + x.reason);
+                out.innerHTML = "<small>Sent " + k.sent + ", updated " + k.updated + ", skipped " + k.skipped + ", failed " + k.failed
+                    + (lines.length ? "<br>" + lines.map(l => l.replace(/</g, "&lt;")).join("<br>") : "") + "</small>";
+            } catch (e) { out.textContent = "Failed: " + e.message; }
+        }
+
+        async function exportCsv(shop) {
+            const base = $("exportBase").value.trim();
+            try {
+                const c = await fetch("/export/check");
+                const info = await c.json();
+                $("exportWarn").innerHTML = info.warnings.length
+                    ? "<small>Check before importing:<br>" + info.warnings.map(w => "- " + w.replace(/</g, "&lt;")).join("<br>") + "</small>"
+                    : "";
+                if (!info.products) { say("Add products first.", true); return; }
+            } catch (e) { /* the download below reports its own error */ }
+            window.location = "/export/" + shop + ".csv" + (base ? "?image_base=" + encodeURIComponent(base) : "");
+        }
+
+        async function loadMeta() {
+            const box = $("metaDrafts");
+            try {
+                const r = await fetch("/meta/drafts");
+                if (!r.ok) throw new Error(await errText(r));
+                const list = await r.json();
+                if (!list.length) { box.innerHTML = "<small>No approved ads yet.</small>"; return; }
+                box.innerHTML = list.map(m => {
+                    const d = m.meta_draft, miss = (d.missing || []).map(x => '<div style="color:#b45309;font-size:12px">&#9888; Missing: ' + esc(x) + "</div>").join("");
+                    const lines = d.creative.lines.map(l => "<div><b>" + esc(l.headline) + "</b> " + esc(l.text) + " <small>[" + esc(l.cta) + "]</small></div>").join("");
+                    return '<div class="prop" style="display:flex;gap:14px;align-items:flex-start">' +
+                        (m.image_url ? '<img src="' + esc(m.image_url) + '" style="width:90px;border-radius:8px;flex:none">' : "") +
+                        '<div style="flex:1"><b>' + esc(m.product_name) + "</b> &middot; Rs " + esc(m.daily_budget) + "/day " +
+                        '<span style="background:#fef3c7;color:#92400e;border-radius:4px;padding:1px 6px;font-size:12px">PAUSED draft, not sent to Meta</span><br>' +
+                        "<small>Placements: " + esc(d.ad_set.placements.join(", ")) + " &middot; Link: " + esc(m.link || "none") + "</small>" +
+                        lines + miss +
+                        '<a href="/meta/drafts/' + m.proposal_id + '/pack"><button>Download ad pack</button></a> ' +
+                        "<details><summary><small>Show draft details</small></summary><pre style='font-size:12px;white-space:pre-wrap'>" + esc(JSON.stringify(d, null, 2)) + "</pre></details></div></div>";
+                }).join("");
+            } catch (e) { box.innerHTML = "<small>Could not load Meta drafts: " + esc(e.message) + "</small>"; }
+        }
+
+        async function loadReport() {
+            const box = $("report");
+            try {
+                const r = await fetch("/report?days=" + $("repDays").value);
+                if (!r.ok) throw new Error(await errText(r));
+                const d = await r.json();
+                const row = (k, v) => "<tr><td>" + esc(k) + "</td><td>" + esc(v) + "</td></tr>";
+                const num = v => (v === null || v === undefined) ? "n/a" : v;
+                const sec = v => (v === null || v === undefined) ? "n/a" : v + " s";
+                const c = d.catalog, f = c.owner_corrections, a = d.ads, m = d.model_calls;
+                const fixed = f.drafts_measured
+                    ? f.fields_changed + " of " + f.fields_total + " fields fixed, " + f.removed + " of " + f.items + " items removed"
+                    : "no edited drafts yet";
+                const purposes = Object.entries(m.by_purpose).map(([k, v]) =>
+                    "<tr><td>" + esc(k) + "</td><td>" + v.calls + (v.failed ? " (" + v.failed + " failed)" : "") + "</td><td>" +
+                    sec(v.avg_seconds) + "</td><td>" + sec(v.p95_seconds) + "</td><td>" +
+                    (m.unit_prices_set ? v.estimated_cost : "n/a") + "</td></tr>").join("");
+                box.innerHTML =
+                    "<table class='rep'>" +
+                    row("Products", d.products.total + " (" + d.products.ready_for_planner + " ready for the planner, " +
+                        d.products.missing_price + " without an MRP, " + d.products.missing_cost + " without a cost)") +
+                    row("Catalog drafts", c.drafts + " (" + c.approved + " approved, " + c.pending + " pending, " + c.rejected + " rejected)") +
+                    row("Products imported", c.products_imported + (c.already_in_catalog ? " (" + c.already_in_catalog + " already in the catalog)" : "")) +
+                    row("Owner corrections", fixed) +
+                    row("Planner runs", d.planner.runs) +
+                    row("Ad drafts", a.drafts + " (" + a.approved + " approved, " + a.pending + " pending, " + a.rejected + " rejected)") +
+                    row("Ad copy lines", a.copy_lines + " (" + a.lines_flagged + " flagged, " + a.lines_blocked + " blocked)") +
+                    row("Meta drafts", a.meta_drafts + " saved as paused drafts, 0 sent to Meta") +
+                    row("Ad images", Object.entries(a.image_sources).map(([k, v]) => v + " " + k).join(", ") || "none") +
+                    row("Budget committed", "Rs " + d.spend.committed_per_day + "/day across " + d.spend.approved_ads +
+                        " approved ads (caps: Rs " + d.spend.cap_per_ad + " per ad, Rs " + d.spend.cap_total_per_day + " total)") +
+                    "</table><small>" + esc(d.spend.note) + "</small>" +
+                    "<p><b>Model calls</b>: " + m.total.calls + " (" + m.total.failed + " failed), average " + sec(m.total.avg_seconds) +
+                    ", slowest 5% over " + sec(m.total.p95_seconds) +
+                    (m.unit_prices_set ? ", estimated cost " + m.total.estimated_cost : ". Set COST_TEXT, COST_VISION and COST_IMAGE in .env to see cost.") + "</p>" +
+                    (purposes ? "<table class='rep'><tr><th>Used for</th><th>Calls</th><th>Average</th><th>Slowest 5%</th><th>Cost</th></tr>" + purposes + "</table>" : "");
+            } catch (e) { box.innerHTML = "<small>Could not load the report: " + esc(e.message) + "</small>"; }
+        }
+
+        /* ===== SEO ===== */
+        let seoCfg = null;
+        let seoSaving = Promise.resolve();
+        const SEO_STATUS = {
+            pending: ["Waiting for you", "#b45309"], approved: ["Approved", "#1d4ed8"], rejected: ["Rejected", "#6b7280"],
+            applied: ["Applied", "#0a7a3c"], rolled_back: ["Rolled back", "#6b7280"], failed: ["Failed", "#c00"],
+            manual: ["Do by hand", "#b45309"]
+        };
+
+        async function loadSeoConfig() {
+            try {
+                seoCfg = await (await fetch("/seo/config")).json();
+                const keep = $("seoShop").value;
+                $("seoShop").innerHTML = seoCfg.shops.map(s =>
+                    `<option value="${esc(s.name)}"${s.ready ? "" : " disabled"}>${esc(s.label)}${s.ready ? "" : " (not set up in .env)"}</option>`).join("");
+                if (keep && [...$("seoShop").options].some(o => o.value === keep && !o.disabled)) $("seoShop").value = keep;
+            } catch (e) { }
+        }
+
+        function seoShopNote() {
+            if (!seoCfg) return "";
+            const s = seoCfg.shops.find(x => x.name === $("seoShop").value);
+            if (!s) return "";
+            const L = seoCfg.limits;
+            return "Limits: title " + L.title + ", description " + L.description + ", heading " + L.h1 + ", alt " + L.alt +
+                " characters. This shop can be written to for: " + s.writes.join(", ") +
+                (s.writes.length < 5 ? ". The rest are shown for you to copy." : ".");
+        }
+
+        async function seoGenerate() {
+            const btn = $("seoGen"); btn.disabled = true;
+            $("seoInfo").innerHTML = "<small>Writing SEO text... about 10 seconds per product.</small>";
+            try {
+                const r = await fetch("/seo/generate", {
+                    method: "POST", headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ shop: $("seoShop").value })
+                });
+                if (!r.ok) throw new Error(await errText(r));
+                const d = await r.json(), k = d.counts;
+                const bad = d.results.filter(x => x.status === "failed").map(x => "- " + x.name + ": " + x.reason);
+                $("seoInfo").innerHTML = "<small>Proposed for " + k.proposed + " products, " + k.unchanged + " already up to date, " + k.failed + " failed." +
+                    (bad.length ? "<br>" + bad.map(esc).join("<br>") : "") + "</small>";
+            } catch (e) { $("seoInfo").innerHTML = "<small style='color:#c00'>Failed: " + esc(e.message) + "</small>"; }
+            btn.disabled = false; loadSeo(); loadAudit();
+        }
+
+        async function loadSeo() {
+            await loadSeoConfig();
+            const box = $("seoList");
+            try {
+                const shop = $("seoShop").value || "mock";
+                const rows = await (await fetch("/seo/proposals?shop=" + encodeURIComponent(shop))).json();
+                const live = rows.filter(r => r.status !== "rejected" || true);
+                const byProduct = {};
+                live.forEach(r => (byProduct[r.product_id] = byProduct[r.product_id] || []).push(r));
+                const pending = rows.filter(r => r.status === "pending").length;
+                $("nav-seo").textContent = pending || "";
+                if (!Object.keys(byProduct).length) { box.innerHTML = "<div class='card'><small>No SEO proposals yet. Press \"Write SEO for all products\".</small></div>"; return; }
+                const L = seoCfg ? seoCfg.limits : {};
+                box.innerHTML = Object.entries(byProduct).map(([pid, list]) => {
+                    const shown = list.filter(r => r.status !== "rejected" || !list.some(x => x.field === r.field && x.id > r.id));
+                    const has = st => shown.some(r => r.status === st);
+                    const trs = shown.map(r => {
+                        const st = SEO_STATUS[r.status] || [r.status, "#000"];
+                        const big = r.field === "json_ld";
+                        const before = r.old_value ? (big ? "<details><summary>Show</summary><pre style='font-size:11px;white-space:pre-wrap'>" + esc(r.old_value) + "</pre></details>" : "<span style='text-decoration:line-through;color:#6b7280'>" + esc(r.old_value) + "</span>") : "<small>(empty)</small>";
+                        let after;
+                        if (r.editable) {
+                            const max = L[r.field] || 200;
+                            after = `<input type="text" class="seo-in" data-id="${r.id}" data-max="${max}" maxlength="${max}" value="${esc(r.new_value)}" style="width:100%"><small class="cnt">${r.new_value.length}/${max}</small>`;
+                        } else if (big) after = "<details><summary>Show</summary><pre style='font-size:11px;white-space:pre-wrap'>" + esc(r.new_value) + "</pre></details>";
+                        else after = "<b>" + esc(r.new_value) + "</b>";
+                        const acts = r.status === "pending" ? `<button onclick="seoDecide(${r.id},'approve')">Approve</button> <button onclick="seoDecide(${r.id},'reject')">Reject</button>`
+                            : r.status === "applied" ? `<button onclick="seoRollback(${r.id})">Roll back</button>` : "";
+                        return `<tr><td>${esc(r.label)}</td><td>${before}</td><td>${after}</td><td><small>${esc(r.reason)}</small></td>` +
+                            `<td><span style="color:${st[1]};font-size:12px">${st[0]}</span>${r.note ? "<br><small>" + esc(r.note) + "</small>" : ""}</td><td>${acts}</td></tr>`;
+                    }).join("");
+                    return `<div class="card"><div class="card-head"><h2>${esc(list[0].product)}</h2><span class="push row">` +
+                        (has("pending") ? `<button onclick="seoApproveAll(${pid})">Approve all</button>` : "") +
+                        (has("approved") ? `<button class="primary" onclick="seoApply(${pid})">Apply approved</button>` : "") +
+                        (has("applied") ? `<button onclick="seoRollbackAll(${pid})">Roll back applied</button>` : "") +
+                        `</span></div><table><thead><tr><th>Field</th><th>Before</th><th>After</th><th>Why</th><th>Status</th><th></th></tr></thead><tbody>${trs}</tbody></table></div>`;
+                }).join("");
+                box.querySelectorAll(".seo-in").forEach(inp => {
+                    inp.oninput = () => { inp.nextElementSibling.textContent = inp.value.length + "/" + inp.dataset.max; };
+                    inp.onchange = () => {
+                        const value = inp.value;
+                        seoSaving = seoSaving.then(async () => {
+                            const r = await fetch("/seo/proposals/" + inp.dataset.id, {
+                                method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ new_value: value })
+                            });
+                            if (!r.ok) { say("Failed: " + await errText(r), true); loadSeo(); } else say("Saved your edit.");
+                        }).catch(() => { });
+                    };
+                });
+                $("seoInfo").title = seoShopNote();
+                if (!$("seoInfo").textContent.trim()) $("seoInfo").innerHTML = "<small>" + esc(seoShopNote()) + "</small>";
+            } catch (e) { box.innerHTML = "<div class='card'><small>Could not load SEO proposals: " + esc(e.message) + "</small></div>"; }
+        }
+
+        async function seoCall(path, body, okText) {
+            await seoSaving;
+            const r = await fetch(path, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body || {}) });
+            if (!r.ok) { say("Failed: " + await errText(r), true); }
+            else {
+                const d = await r.json();
+                const c = d.counts ? Object.entries(d.counts).map(([k, v]) => v + " " + k.replace("_", " ")).join(", ") : (d.approved !== undefined ? d.approved + " approved" : "");
+                say(okText + (c ? ": " + c : "") + ".");
+            }
+            loadSeo(); loadAudit();
+        }
+        function seoDecide(id, action) { seoCall("/seo/proposals/" + id + "/" + action, {}, action === "approve" ? "Approved" : "Rejected"); }
+        function seoApproveAll(pid) { seoCall("/seo/approve_all", { product_id: pid, shop: $("seoShop").value }, "Approved all"); }
+        function seoApply(pid) { seoCall("/seo/apply", { product_id: pid, shop: $("seoShop").value }, "Applied"); }
+        function seoRollback(id) { seoCall("/seo/proposals/" + id + "/rollback", {}, "Rolled back"); }
+        function seoRollbackAll(pid) { seoCall("/seo/rollback", { product_id: pid, shop: $("seoShop").value }, "Rolled back"); }
+
+        async function importGsc() {
+            const f = $("gscFile").files[0];
+            if (!f) { $("gscInfo").innerHTML = "<small>Choose the CSV file first.</small>"; return; }
+            const fd = new FormData(); fd.append("file", f);
+            const r = await fetch("/seo/queries/import", { method: "POST", body: fd });
+            if (!r.ok) { $("gscInfo").innerHTML = "<small style='color:#c00'>" + esc(await errText(r)) + "</small>"; return; }
+            const d = await r.json();
+            $("gscInfo").innerHTML = "<small>Imported " + d.rows + " searches, " + d.matched + " matched to a product, " + d.unmatched + " did not match any product.</small>";
+            loadAudit();
+        }
+
+        /* ===== Dashboard additions ===== */
+        const VIEWS = { overview: "Overview", catalog: "Catalog", ads: "Ads", seo: "SEO", export: "Export", setup: "Shop setup" };
+        const kpi = { products: null, ready: 0, pending: 0, approved: 0, metaDrafts: 0, committed: 0, cap: 0 };
+
+        function goView(v) { location.hash = v; }
+
+        function route() {
+            const v = VIEWS[location.hash.slice(1)] ? location.hash.slice(1) : "overview";
+            document.querySelectorAll(".view").forEach(s => s.classList.toggle("active", s.dataset.view === v));
+            document.querySelectorAll(".nav").forEach(a => {
+                a.classList.toggle("active", a.dataset.go === v);
+                if (a.dataset.go === v) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+            });
+            $("pageTitle").textContent = VIEWS[v];
+            window.scrollTo(0, 0);
+        }
+        window.addEventListener("hashchange", route);
+
+        function nextStep() {
+            const k = kpi;
+            let t = "Loading your shop...", b = "", v = "catalog", label = "Open catalog";
+            if (k.products !== null) {
+                if (!k.products) { t = "Start by filming a shelf"; b = "Upload a short video and Marketing Brain drafts your catalog from the price tags."; label = "Upload a video"; }
+                else if (k.pending) { t = k.pending + (k.pending === 1 ? " item is" : " items are") + " waiting for your approval"; b = "Nothing moves forward until you approve it."; v = "ads"; label = "Review queue"; }
+                else if (k.ready) { t = "Choose what to promote"; b = "Run the planner and it picks 3 products from your catalog."; v = "ads"; label = "Open ads"; }
+                else { t = "No products are ready for the planner yet"; b = "Check prices and stock in your catalog."; }
+            }
+            $("next-title").textContent = t;
+            $("next-body").textContent = b;
+            const btn = $("next-btn");
+            btn.textContent = label; btn.dataset.v = v; btn.hidden = k.products === null;
+        }
+
+        function paintKpis() {
+            const k = kpi, has = k.products !== null;
+            $("k-products").textContent = has ? k.products : "–";
+            $("k-products-sub").textContent = has ? k.ready + " ready for the planner" : "";
+            $("k-pending").textContent = k.pending;
+            $("k-pending-sub").textContent = k.pending ? "Review them in Ads" : "Nothing waiting";
+            $("k-pending-card").classList.toggle("alert", k.pending > 0);
+            $("k-approved").textContent = k.approved;
+            $("k-approved-sub").textContent = k.metaDrafts + " saved as paused drafts";
+            $("k-budget").textContent = "Rs " + k.committed;
+            $("k-budget-sub").textContent = k.cap ? "of Rs " + k.cap + " daily cap" : "";
+            $("k-bar").style.width = k.cap ? Math.min(100, k.committed / k.cap * 100) + "%" : "0";
+            $("nav-ads").textContent = k.pending || "";
+            nextStep();
+        }
+
+        async function refreshKpis() {
+            try {
+                const r = await fetch("/report?days=7");
+                if (!r.ok) return;
+                const d = await r.json();
+                Object.assign(kpi, {
+                    products: d.products.total, ready: d.products.ready_for_planner,
+                    approved: d.ads.approved, metaDrafts: d.ads.meta_drafts,
+                    committed: d.spend.committed_per_day, cap: d.spend.cap_total_per_day,
+                });
+                paintKpis();
+            } catch (e) { }
+        }
+
+        /* Wrap three existing loaders so the numbers update whenever they refresh */
+        const _loadReport = loadReport;
+        loadReport = async function () { await _loadReport(); refreshKpis(); };
+        const _loadQueue = loadQueue;
+        loadQueue = async function () { await _loadQueue(); kpi.pending = document.querySelectorAll("#queue .prop").length; paintKpis(); };
+        const _loadProducts = loadProducts;
+        loadProducts = async function () { await _loadProducts(); $("nav-cat").textContent = products.length || ""; };
+
+        function refreshAll() { loadProducts(); loadQueue(); loadMeta(); loadAudit(); loadReport(); loadSync(); loadSeo(); loadSeriesSetup(); loadKill(); }
+
+        $("msg").onclick = () => { $("msg").textContent = ""; };
+        paintKpis();
+        route();
+
+        loadAudit();
+        loadQueue();
+        loadProducts();
+        loadReport();
+        loadMeta();
+        loadSync();
+        loadShop();
+        loadSeo();
+        loadSeriesSetup();
+        loadKill();
+        $("serProduct").addEventListener("change", refreshSeriesRef);
+    </script>
+</body>
+
+</html>
